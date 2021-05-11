@@ -1,0 +1,40 @@
+import java.io.*;
+import org.apache.commons.io.IOUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
+
+class MyClass{
+    
+	public static void main (String[] args) {
+
+        try {
+            JSONObject baseJsonResponse  = new JSONObject(IOUtils.toString(new URL("http://www.example.com/api/get/1"), Charset.forName("UTF-8")));
+            JSONArray talks = baseJsonResponse.getJSONArray("talks");
+
+            for (int i = 0; i < talks.length(); i++) {
+
+                JSONObject currentTalks = talks.getJSONObject(i);
+
+                String title = currentTalks.getString("talk_title");
+                String description = currentTalks.getString("talk_description");
+
+                System.out.println("Title : " + title + ", Description: "+ description);
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+}
